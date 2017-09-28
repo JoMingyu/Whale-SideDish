@@ -1,7 +1,6 @@
 # -*- coding: utf8 -*-
 
-from mongoengine import Document
-from mongoengine import StringField
+from db.mongodb import *
 
 
 class SchoolModel(Document):

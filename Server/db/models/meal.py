@@ -1,7 +1,6 @@
 # -*- coding: utf8 -*-
 
-from mongoengine import Document, EmbeddedDocument
-from mongoengine import EmbeddedDocumentField, StringField
+from db.mongodb import *
 
 
 class MealModel(EmbeddedDocument):
