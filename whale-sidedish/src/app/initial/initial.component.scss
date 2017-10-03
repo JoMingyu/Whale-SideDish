@@ -17,6 +17,7 @@
     transition: 0.15s cubic-bezier(0.165, 0.84, 0.44, 1);
 
     &:hover{
+        transform: translateY(30%);
         cursor: pointer;
     }
 }
@@ -33,6 +34,11 @@
     }
 }
 
-.sink{
+:host(.sink){
     transform: translateY(30%);
+    background: black;
+}
+
+.hide{
+    transform: translateY(-100%);
 }

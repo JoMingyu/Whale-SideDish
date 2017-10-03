@@ -14,6 +14,7 @@
   will-change: transform;
   transition: 0.15s cubic-bezier(0.165, 0.84, 0.44, 1); }
   #lower-arrow:hover {
+    transform: translateY(30%);
     cursor: pointer; }
 
 #register-label {
@@ -25,7 +26,11 @@
   #register-label:hover {
     cursor: pointer; }
 
-.sink {
-  transform: translateY(30%); }
+:host(.sink) {
+  transform: translateY(30%);
+  background: black; }
+
+.hide {
+  transform: translateY(-100%); }
 
 /*# sourceMappingURL=initial.component.css.map */

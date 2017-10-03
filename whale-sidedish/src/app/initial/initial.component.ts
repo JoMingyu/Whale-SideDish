@@ -1,15 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-initial',
   templateUrl: './initial.component.html',
   styleUrls: ['./initial.component.css']
 })
-export class InitialComponent implements OnInit {
+export class InitialComponent{
+  public isSink: boolean = false;
 
-  constructor() { }
+  @ViewChild('registerLabel') registerLabel : ElementRef
+  @ViewChild('lowerArrow') lowerArrow : ElementRef
+  @ViewChild('img') image : ElementRef
 
-  ngOnInit() {
+  constructor(elementRef: ElementRef) {
   }
 
+  ngAfterViewInit() {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
+  }
+
+  addSink(){
+    this.isSink = true;
+  }
+
+  removeSink(){
+    this.isSink = false;
+  }
 }

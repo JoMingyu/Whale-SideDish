@@ -15,6 +15,8 @@ body{
 
 .gradient-background{
     @extend .background; 
+    transition: transform 600ms cubic-bezier(0.19, 1, 0.22, 1);
+    will-change: transform;
 
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fffab5+0,f3e6db+33,d9dff8+66,c6d3f8+100 */
     /* Old browsers */
