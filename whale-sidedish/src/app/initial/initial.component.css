@@ -26,9 +26,8 @@
   #register-label:hover {
     cursor: pointer; }
 
-:host(.sink) {
-  transform: translateY(30%);
-  background: black; }
+.sink {
+  transform: translateY(30%); }
 
 .hide {
   transform: translateY(-100%); }

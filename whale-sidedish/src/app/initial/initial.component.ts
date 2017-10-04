@@ -7,6 +7,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 })
 export class InitialComponent{
   public isSink: boolean = false;
+  public isHide: boolean = false;
 
   @ViewChild('registerLabel') registerLabel : ElementRef
   @ViewChild('lowerArrow') lowerArrow : ElementRef
@@ -26,5 +27,9 @@ export class InitialComponent{
 
   removeSink(){
     this.isSink = false;
+  }
+
+  hideSection(){
+    this.isHide = true;
   }
 }
