@@ -1,0 +1,35 @@
+.logo {
+  width: 100%;
+  transform: translateY(50%); }
+
+.start {
+  position: absolute;
+  bottom: 0;
+  transform: translate(50%, -50%); }
+
+#lower-arrow {
+  width: 5%;
+  height: 5%;
+  transition-property: transform;
+  will-change: transform;
+  transition: 0.15s cubic-bezier(0.165, 0.84, 0.44, 1); }
+  #lower-arrow:hover {
+    transform: translateY(30%);
+    cursor: pointer; }
+
+#register-label {
+  color: white;
+  font-style: normal;
+  font-weight: normal;
+  font-size: x-large;
+  margin: 0; }
+  #register-label:hover {
+    cursor: pointer; }
+
+.sink {
+  transform: translateY(30%); }
+
+.hide {
+  transform: translateY(-100%); }
+
+/*# sourceMappingURL=initial.component.css.map */
