@@ -104,4 +104,15 @@
 .visible {
   opacity: 1 !important; }
 
+.start {
+  padding: 1vh 0;
+  width: 100%;
+  height: 5vh;
+  border: 0px;
+  font-size: 2vh;
+  background: white;
+  cursor: pointer;
+  color: #3394FF;
+  outline: 0; }
+
 /*# sourceMappingURL=search.component.css.map */

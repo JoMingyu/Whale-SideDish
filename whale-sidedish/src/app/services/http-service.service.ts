@@ -12,4 +12,9 @@ export class HttpServiceService {
   getSchools(keyword: string){
     return this.http.get(`${this.schoolUrl}${keyword}`);
   }
+
+  //Get Meals
+  getMeals(code: string, date: string){
+    return this.http.get(`http://52.79.134.200:5959/meal/${code}?date=${date}`);
+  }
 }
