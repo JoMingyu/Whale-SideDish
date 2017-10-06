@@ -2,9 +2,11 @@ $color: #CCD7F8;
 $color-dark: darken(desaturate($color, 10), 5);
 $font-size: 30px;
 $icon-size: 30px;
-$width-input: 100%;
+$width-input: 95%;
 $border-radius: 10px;
 $transition: all 0.5s;
+$default-text-color: #95989A;
+$accent-color: #3394FF;
 
 // Reset
 *{
@@ -22,7 +24,7 @@ $transition: all 0.5s;
 	color: #fff;
     display: flex;
 	font: $font-size/1.375 'Lato', arial, sans-serif;
-	flex-flow: row nowrap;
+	flex-flow: column nowrap;
 	justify-content: center;
 }
 
@@ -39,8 +41,8 @@ $transition: all 0.5s;
 	border-radius: $border-radius;
 	display: flex;
 	justify-content: space-between;
-	margin: 0.5em;
-	padding: 0.5em 0.5em 0.5em 1em;
+	margin: 2.5%;
+	padding: 2.5% 5%;
 	transition: $transition;
 	width: $width-input;
 
@@ -97,4 +99,69 @@ $transition: all 0.5s;
 	100%{
         transform: rotate(360deg);
     }
+}
+
+.result-container{
+	background: white;
+	width: 100%;
+	height: 100%;
+	text-align: start;
+	padding-top: 2.5%;
+
+	p{
+		text-align: start;
+		color: $default-text-color;
+	}
+
+	.count{
+		display: inline;
+		text-align: start;
+		transform: translateY(2.5%);
+	}
+
+	.describe-school-count{
+		@extend .count;
+	}
+
+	.school-count{
+		@extend .count;
+		color: $accent-color;
+		font-weight: bold;
+		margin-left: 2.5%;
+	}
+
+	.school-list{
+		padding-left: 10%;
+		width: 90%;
+		margin: 3vh 0;
+		cursor: pointer;
+	}
+
+	.school-name{
+		font-size: 2.5vh;
+		font-weight: 100;
+		text-overflow: ellipsis;
+	}
+
+	.region-name{
+		font-size: 1.5vh;
+		font-weight: 100;
+		opacity: 0.5;
+	}
+
+	svg{
+		width: 2.5vh;
+		height: 2.5vh;
+		float: right;
+		margin-top: -3.5vh;
+		margin-left: 2.5vh;
+		opacity: 0;
+		transition-property: opacity;
+		will-change: opacity;
+		transition: 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+	}
+}
+
+.visible{
+	opacity: 1 !important;
 }
