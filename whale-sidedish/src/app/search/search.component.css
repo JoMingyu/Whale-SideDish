@@ -10,7 +10,7 @@
   color: #fff;
   display: flex;
   font: 21.8181818182px "Lato", arial, sans-serif;
-  flex-flow: row nowrap;
+  flex-flow: column nowrap;
   justify-content: center; }
 
 .note {
@@ -25,10 +25,10 @@
   border-radius: 10px;
   display: flex;
   justify-content: space-between;
-  margin: 0.5em;
-  padding: 0.5em 0.5em 0.5em 1em;
+  margin: 2.5%;
+  padding: 2.5% 5%;
   transition: all 0.5s;
-  width: 100%; }
+  width: 95%; }
   #search:hover, #search:focus {
     background: #b1c1ef; }
   #search button,
@@ -60,5 +60,59 @@
     transform: rotate(0deg); }
   100% {
     transform: rotate(360deg); } }
+.result-container {
+  background: white;
+  width: 100%;
+  height: 100%;
+  text-align: start;
+  padding-top: 2.5%; }
+  .result-container p {
+    text-align: start;
+    color: #95989A; }
+  .result-container .count, .result-container .describe-school-count, .result-container .school-count {
+    display: inline;
+    text-align: start;
+    transform: translateY(2.5%); }
+  .result-container .school-count {
+    color: #3394FF;
+    font-weight: bold;
+    margin-left: 2.5%; }
+  .result-container .school-list {
+    padding-left: 10%;
+    width: 90%;
+    margin: 3vh 0;
+    cursor: pointer; }
+  .result-container .school-name {
+    font-size: 2.5vh;
+    font-weight: 100;
+    text-overflow: ellipsis; }
+  .result-container .region-name {
+    font-size: 1.5vh;
+    font-weight: 100;
+    opacity: 0.5; }
+  .result-container svg {
+    width: 2.5vh;
+    height: 2.5vh;
+    float: right;
+    margin-top: -3.5vh;
+    margin-left: 2.5vh;
+    opacity: 0;
+    transition-property: opacity;
+    will-change: opacity;
+    transition: 0.3s cubic-bezier(0.165, 0.84, 0.44, 1); }
+
+.visible {
+  opacity: 1 !important; }
+
+.start {
+  padding: 1vh 0;
+  width: 100%;
+  height: 5vh;
+  border: 0px;
+  font-size: 2vh;
+  background: white;
+  cursor: pointer;
+  color: #3394FF;
+  outline: 0; }
 
 /*# sourceMappingURL=search.component.css.map */

@@ -4,9 +4,10 @@
 }
 
 .start{
+    width: 100%;
     position: absolute;
     bottom: 0;
-    transform: translate(50%, -50%);
+    transform: translateY(-50%);
 }
 
 #lower-arrow{

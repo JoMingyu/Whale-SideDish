@@ -1,3 +1,16 @@
 <div class="gradient-background">
-  <input id="change-school" type="button">
+  <div id="change-school">
+      <img class="logo" src="..\..\assets\svgs\change.svg">
+  </div>
+  <div class="summary-container">
+    <p id="school-name">학교이름</p>
+    <p id="today-date">오늘 날짜</p>
+  </div>
+  <div class="content-container">
+    <div *ngFor="let meal of meals">
+      <p class="meal-time">{{meal.time}}</p>
+      <p class="meal-content">{{meal.content}}</p>
+    </div>
+    <footer class="decorate-container"></footer>
+  </div>
 </div>
