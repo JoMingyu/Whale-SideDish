@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { InitialComponent } from '../initial/initial.component';
 
 @Component({
   selector: 'app-search',
@@ -6,19 +7,26 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
+  public initialInstance: InitialComponent;
 
-  @ViewChild('search') search : ElementRef;
-  constructor() { }
+  @ViewChild('search') search: ElementRef;
+
+  constructor(initialInstance: InitialComponent) {
+    this.initialInstance = initialInstance;
+  }
 
   ngOnInit() {
   }
 
-  searchSchoolWithButton(event: any){
+  searchSchoolWithButton(event: any) {
     this.search.nativeElement.classList.add("loading");
+    this.initialInstance.NavigationStackCount++;
   }
 
-  searchSchoolWithKey(event: any){
-    if(event == 13)
+  searchSchoolWithKey(event: any) {
+    if (event == 13)
       this.search.nativeElement.classList.add("loading");
+
+    this.initialInstance.NavigationStackCount++;
   }
 }

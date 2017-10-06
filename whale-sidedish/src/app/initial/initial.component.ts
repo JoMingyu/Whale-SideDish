@@ -8,12 +8,13 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 export class InitialComponent{
   public isSink: boolean = false;
   public isHide: boolean = false;
+  public NavigationStackCount: number = 0;
 
   @ViewChild('registerLabel') registerLabel : ElementRef
   @ViewChild('lowerArrow') lowerArrow : ElementRef
   @ViewChild('img') image : ElementRef
 
-  constructor(elementRef: ElementRef) {
+  constructor() {
   }
 
   ngAfterViewInit() {
@@ -29,7 +30,11 @@ export class InitialComponent{
     this.isSink = false;
   }
 
-  hideSection(){
-    this.isHide = true;
+  goToNext(){
+    this.NavigationStackCount++;
+  }
+
+  getStep(){
+    return `translateY(-${this.NavigationStackCount * 100}%)`
   }
 }
