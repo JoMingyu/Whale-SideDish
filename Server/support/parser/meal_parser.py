@@ -19,7 +19,7 @@ def parse_all():
 
 
 def parse(code):
-    start_time = time.time()
+    start_time = time()
 
     MealScheduleModel.objects(code=code).delete()
     # 파싱 전 제거
