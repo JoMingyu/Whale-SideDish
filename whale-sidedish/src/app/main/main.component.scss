@@ -9,14 +9,26 @@
 }
 
 .summary-container{
-    transform: translateY(20vh);
-    width: 100%;
-    height: 10vh;
+    transform: translate(50%, 10vh);
+    width: 25vh;
+    height: 25vh;
+    border-radius: 12.5vh;
     border: 5px dotted white;
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
-    padding-left: 15%;
+
+    .month{
+        color: white;
+        font-size: 10vh;
+        font-weight: 100;
+    }
+
+    .date-day{
+        color: white;
+        font-size: 2vh;
+        opacity: .7;
+    }
 }
 
 .summary-label{
@@ -36,7 +48,7 @@
 }
 
 .content-container{
-    transform: translateY(25vh);
+    transform: translateY(15vh);
     height: 45vh;
     padding: 5vh 5%;
     margin: 0 10%;
@@ -62,6 +74,7 @@
     .meal-content{
         font-size: 2vh;
         margin: 0 auto;
+        opacity: .5;
     }
 }
 
