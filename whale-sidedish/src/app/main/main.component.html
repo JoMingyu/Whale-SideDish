@@ -7,10 +7,12 @@
     <p id="today-date">오늘 날짜</p>
   </div>
   <div class="content-container">
-    <div *ngFor="let meal of meals">
-      <p class="meal-time">{{meal.time}}</p>
-      <p class="meal-content">{{meal.content}}</p>
-    </div>
+    <p class="meal-time">아침</p>
+    <p class="meal-content">{{meals[0]}}</p>
+    <p class="meal-time">점심</p>
+    <p class="meal-content">{{meals[1]}}</p>
+    <p class="meal-time">저녁</p>
+    <p class="meal-content">{{meals[2]}}</p>
     <footer class="decorate-container"></footer>
   </div>
 </div>
