@@ -1,16 +1,22 @@
 <div class="gradient-background">
-  <div id="change-school">
+  <div id="change-school" (click)="goToPrevious()">
       <img class="logo" src="..\..\assets\svgs\change.svg">
   </div>
   <div class="summary-container">
-    <p id="school-name">학교이름</p>
-    <p id="today-date">오늘 날짜</p>
+    <div class="month">
+      {{month}}
+    </div>
+    <div class="date-day">
+      {{date}} {{day}}
+    </div>
   </div>
   <div class="content-container">
-    <div *ngFor="let meal of meals">
-      <p class="meal-time">{{meal.time}}</p>
-      <p class="meal-content">{{meal.content}}</p>
-    </div>
+    <p class="meal-time">아침</p>
+    <p class="meal-content">{{meals[0]}}</p>
+    <p class="meal-time">점심</p>
+    <p class="meal-content">{{meals[1]}}</p>
+    <p class="meal-time">저녁</p>
+    <p class="meal-content">{{meals[2]}}</p>
     <footer class="decorate-container"></footer>
   </div>
 </div>

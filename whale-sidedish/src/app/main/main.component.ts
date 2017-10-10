@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { SearchComponent } from '../search/search.component';
 import { HttpServiceService } from '../services/http-service.service';
+import { Meal } from '../model/meal.model';
+import { InitialComponent } from '../initial/initial.component';
 
 @Component({
   selector: 'app-main',
@@ -10,32 +12,30 @@ import { HttpServiceService } from '../services/http-service.service';
   providers: [SearchComponent]
 })
 export class MainComponent implements OnInit {
-  public meals = [
-    {
-      "time" : "아침",
-      "content" : "시래기된장국, 돼지고기산적, 매운맛당면김말이, 케찹, 석박지, 도시락김, 보리밥"
-    },
-    {
-      "time" : "아침",
-      "content" : "시래기된장국, 돼지고기산적, 매운맛당면김말이, 케찹, 석박지, 도시락김, 보리밥"
-    },
-    {
-      "time" : "아침",
-      "content" : "시래기된장국, 돼지고기산적, 매운맛당면김말이, 케찹, 석박지, 도시락김, 보리밥"
-    }];
+  public initialInstance: InitialComponent;
+  public meals : Object[] = Meal.singleton().meals;
 
-  constructor(public school: SearchComponent, private httpService: HttpServiceService) { 
-    
+  public month: string;
+  public date: string;
+
+  public days: string[] = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+  public day: string;
+
+  constructor(public school: SearchComponent, 
+    private httpService: HttpServiceService,
+    initialInstance: InitialComponent) {
+
+    this.initialInstance = initialInstance;
   }
 
   ngOnInit() {
+    let today = new Date();
+    this.month = (today.getMonth() + 1).toString();
+    this.date = today.getDate().toString();
+    this.day = this.days[today.getDay()];
   }
 
-  showMeal(){
-    var data = this.httpService.getMeals(
-      this.school.currentSchool.code, 
-      new Date().toISOString().slice(0,10)); 
-
-    console.log(data);
-  }
+  goToPrevious(){
+    this.initialInstance.NavigationStackCount--;
+  }  
 }

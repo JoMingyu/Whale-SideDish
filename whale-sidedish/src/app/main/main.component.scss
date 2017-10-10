@@ -2,6 +2,7 @@
     margin: 0.5em;
     padding: 0.5em;
     float: right;
+    cursor: pointer;
     img{
         width: 2vh;
         height: 2vh;
@@ -9,14 +10,26 @@
 }
 
 .summary-container{
-    transform: translateY(20vh);
-    width: 100%;
-    height: 10vh;
+    transform: translate(50%, 10vh);
+    width: 25vh;
+    height: 25vh;
+    border-radius: 12.5vh;
     border: 5px dotted white;
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
-    padding-left: 15%;
+
+    .month{
+        color: white;
+        font-size: 10vh;
+        font-weight: 100;
+    }
+
+    .date-day{
+        color: white;
+        font-size: 2vh;
+        opacity: .7;
+    }
 }
 
 .summary-label{
@@ -36,7 +49,7 @@
 }
 
 .content-container{
-    transform: translateY(25vh);
+    transform: translateY(15vh);
     height: 45vh;
     padding: 5vh 5%;
     margin: 0 10%;
@@ -45,7 +58,7 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
     display: flex;
     flex-flow: column nowrap;
-    justify-content: center;
+    justify-content: space-evenly;
     
     P{
         text-align: start;
@@ -56,11 +69,13 @@
     .meal-time{
         font-size: 2.5vh;
         font-weight: bold;
-        margin: 1vh 0;
+        margin: 2vh 0 0 0;
     }
 
     .meal-content{
         font-size: 2vh;
+        margin: 0 auto;
+        opacity: .5;
     }
 }
 
