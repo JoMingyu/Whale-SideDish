@@ -42,6 +42,7 @@ export class SearchComponent implements OnInit {
 
   searchSchoolWithButton(event: MouseEvent) {
     this.search.nativeElement.classList.add("loading");
+    this.schools = {};
     this.parseSchools(this.keyword.nativeElement.value);
     this.search.nativeElement.classList.remove("loading");
   }
@@ -49,6 +50,7 @@ export class SearchComponent implements OnInit {
   searchSchoolWithKey(event: KeyboardEvent) {
     if (event.keyCode == 13){
       this.search.nativeElement.classList.add("loading");
+      this.schools = {};
       this.parseSchools(this.keyword.nativeElement.value);
       this.search.nativeElement.classList.remove("loading");
     }
