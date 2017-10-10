@@ -20,12 +20,18 @@ export class SearchComponent implements OnInit {
   public currentSchool: any;
 
   @ViewChild('check') check: ElementRef;
-  @ViewChildren('search') search: ElementRef;
+  @ViewChild('search') search: ElementRef;
+  @ViewChild('keyword') keyword: ElementRef;
 
   constructor(initialInstance: InitialComponent, private httpService: HttpServiceService) {
     this.initialInstance = initialInstance;
+  }
 
-    this.httpService.getSchools("대덕").subscribe(
+  ngOnInit() {
+  }
+
+  parseSchools(text: string){
+    this.httpService.getSchools(text).subscribe(
       data => {
         this.schools = data.json();
       },
@@ -34,16 +40,18 @@ export class SearchComponent implements OnInit {
     );
   }
 
-  ngOnInit() {
-  }
-
-  searchSchoolWithButton(event: any) {
+  searchSchoolWithButton(event: MouseEvent) {
     this.search.nativeElement.classList.add("loading");
+    this.parseSchools(this.keyword.nativeElement.value);
+    this.search.nativeElement.classList.remove("loading");
   }
 
-  searchSchoolWithKey(event: any) {
-    if (event == 13)
+  searchSchoolWithKey(event: KeyboardEvent) {
+    if (event.keyCode == 13){
       this.search.nativeElement.classList.add("loading");
+      this.parseSchools(this.keyword.nativeElement.value);
+      this.search.nativeElement.classList.remove("loading");
+    }
   }
 
   selectSchool(school: any){

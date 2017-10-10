@@ -1,7 +1,7 @@
 <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css'>
 <div class="background" id="search-background">
   <div id="search" #search>
-    <input id="input" placeholder="학교 검색" (keypress)="searchSchoolWithKey($event.keyCode)"/>
+    <input id="input" placeholder="학교 검색" (keypress)="searchSchoolWithKey($event)" #keyword/>
     <button id="button" (click)="searchSchoolWithButton($event)"><i class="fa fa-search"></i></button>
     <div class="spinner"><i class="fa fa-spinner"></i></div>
   </div>
