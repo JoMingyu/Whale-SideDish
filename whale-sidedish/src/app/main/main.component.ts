@@ -21,6 +21,8 @@ export class MainComponent implements OnInit {
   public days: string[] = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
   public day: string;
 
+  public isMain: boolean = false;
+
   constructor(public school: SearchComponent, 
     private httpService: HttpServiceService,
     initialInstance: InitialComponent) {
@@ -38,4 +40,13 @@ export class MainComponent implements OnInit {
   goToPrevious(){
     this.initialInstance.NavigationStackCount--;
   }  
+
+  setStyles() {
+    let styles = {
+        'position': 'absolute', 
+        'top': '0',
+        'z-index': Meal.isMain ? '1' : '-1'
+    };
+    return styles;
+  }
 }

@@ -69,8 +69,9 @@ export class SearchComponent implements OnInit {
   }
 
   showMeal(event: Event) {
-    this.initialInstance.NavigationStackCount++;
+    this.initialInstance.NavigationStackCount--;
     this.parseMeal();
+    Meal.isMain = true;
   }
 
   parseMeal() {
