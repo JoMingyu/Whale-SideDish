@@ -30,13 +30,13 @@ export class SearchComponent implements OnInit {
   ngOnInit() {
   }
 
-  parseSchools(text: string){
+  parseSchools(text: string) {
     this.httpService.getSchools(text).subscribe(
       data => {
         this.schools = data.json();
       },
       error => console.log('parse error'),
-      () => {}
+      () => { }
     );
   }
 
@@ -48,7 +48,7 @@ export class SearchComponent implements OnInit {
   }
 
   searchSchoolWithKey(event: KeyboardEvent) {
-    if (event.keyCode == 13){
+    if (event.keyCode == 13) {
       this.search.nativeElement.classList.add("loading");
       this.schools = {};
       this.parseSchools(this.keyword.nativeElement.value);
@@ -56,33 +56,38 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  selectSchool(school: any){
+  selectSchool(school: any) {
     let index = this.schools.indexOf(school);
 
     let svgs = document.getElementsByClassName('check');
 
-    for(let i = 0; i < svgs.length; i++)
+    for (let i = 0; i < svgs.length; i++)
       svgs[i].classList.remove('visible');
 
     this.currentSchool = this.schools[index];
     svgs[index].classList.add('visible');
   }
 
-  showMeal(event: Event){
+  showMeal(event: Event) {
     this.initialInstance.NavigationStackCount++;
+    this.parseMeal();
+  }
 
-    //new Date().toISOString().slice(0,10)
-    this.httpService.getMeals(
-      this.currentSchool.code, "2017-10-11")
-    .subscribe(
+  parseMeal() {
+    let start = performance.now();
+
+    this.httpService.getMeals(this.currentSchool.code, new Date().toISOString().slice(0, 10))
+      .subscribe(
       data => {
-        if(data.status == 205){
-          console.log("서버에 정보가 없습니다")
+        if (data.status == 205) {
+          console.log('reload meal');
+          setTimeout(this.parseMeal(), 2000);
         }
-        else if(data.status == 204){
-          console.log('parse error');
+        else if (data.status == 204) {
+          console.log('success but no information');
+          setTimeout(this.parseMeal(), 2000);
         }
-        else{
+        else {
           let pattern = /\[|\]|\'/g;
 
           let breakfast = (data.json().breakfast as string).replace(pattern, '');
@@ -100,7 +105,9 @@ export class SearchComponent implements OnInit {
         }
       },
       error => console.log('parse error'),
-      () => {}
-    );
+      () => { }
+      );
+    let end = performance.now();
+    console.log("Call to doSomething took " + (end - start) + " milliseconds.");
   }
 }

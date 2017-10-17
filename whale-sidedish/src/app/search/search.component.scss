@@ -107,7 +107,8 @@ $accent-color: #3394FF;
 	height: 100%;
 	text-align: start;
 	padding-top: 2.5%;
-
+	overflow: scroll;
+	
 	p{
 		text-align: start;
 		color: $default-text-color;

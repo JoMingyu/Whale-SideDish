@@ -10,6 +10,10 @@ export class HttpServiceService {
   
   //Get Schools
   getSchools(keyword: string){
+    let t0 = performance.now();
+    let result = this.http.get(`${this.schoolUrl}${keyword}`);
+    let t1 = performance.now();
+    console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")
     return this.http.get(`${this.schoolUrl}${keyword}`);
   }
 
