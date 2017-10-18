@@ -7,7 +7,7 @@
   </div>
   <div class="result-container">
     <p class="school-count">{{schools.length}}</p>
-    <p class="describe-school-count">개의 학교를 찾았습니다</p>
+    <p class="describe-school-count" [ngStyle]="searchFinished()">개의 학교를 찾았습니다</p>
     <div class="school-list" *ngFor="let school of schools">
       <p class="school-name" (click)="selectSchool(school)">{{school.name}}</p>
       <p class="region-name" (click)="selectSchool(school)">{{school.region}}</p>

@@ -38,7 +38,7 @@ export class MainComponent implements OnInit {
   }
 
   goToPrevious(){
-    this.initialInstance.NavigationStackCount--;
+    this.initialInstance.NavigationStackCount++;
   }  
 
   setStyles() {
@@ -48,5 +48,20 @@ export class MainComponent implements OnInit {
         'z-index': Meal.isMain ? '1' : '-1'
     };
     return styles;
+  }
+
+  getBreakfast(){
+    this.meals = Meal.singleton().meals;
+    return this.meals[0];
+  }
+
+  getLunch(){
+    this.meals = Meal.singleton().meals;
+    return this.meals[1];
+  }
+
+  getDinner(){
+    this.meals = Meal.singleton().meals;
+    return this.meals[2];
   }
 }

@@ -19,6 +19,10 @@ export class SearchComponent implements OnInit {
   public schools: any;
   public currentSchool: any;
 
+  private isFinished: boolean = false;
+
+  public static test: boolean = false;
+
   @ViewChild('check') check: ElementRef;
   @ViewChild('search') search: ElementRef;
   @ViewChild('keyword') keyword: ElementRef;
@@ -45,6 +49,7 @@ export class SearchComponent implements OnInit {
     this.schools = {};
     this.parseSchools(this.keyword.nativeElement.value);
     this.search.nativeElement.classList.remove("loading");
+    this.isFinished = true;
   }
 
   searchSchoolWithKey(event: KeyboardEvent) {
@@ -53,6 +58,7 @@ export class SearchComponent implements OnInit {
       this.schools = {};
       this.parseSchools(this.keyword.nativeElement.value);
       this.search.nativeElement.classList.remove("loading");
+      this.isFinished = true;
     }
   }
 
@@ -95,6 +101,8 @@ export class SearchComponent implements OnInit {
           let lunch = (data.json().lunch as string).replace(pattern, '');
           let dinner = (data.json().dinner as string).replace(pattern, '');
 
+          Meal.singleton().meals = [];
+
           Meal.singleton().meals.push(
             breakfast);
 
@@ -110,5 +118,9 @@ export class SearchComponent implements OnInit {
       );
     let end = performance.now();
     console.log("Call to doSomething took " + (end - start) + " milliseconds.");
+  }
+
+  searchFinished(){
+    return { 'display': this.isFinished ? 'inline' : 'none' };
   }
 }
