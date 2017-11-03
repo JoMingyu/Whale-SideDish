@@ -1,7 +1,8 @@
 #change-school{
     margin: 0.5em;
     padding: 0.5em;
-    float: right;
+    position: absolute;
+    right: 0;
     cursor: pointer;
     img{
         width: 2vh;
@@ -10,7 +11,7 @@
 }
 
 .summary-container{
-    transform: translate(50%, 10vh);
+    transform: translateY(10vh);
     width: 25vh;
     height: 25vh;
     border-radius: 12.5vh;
@@ -18,6 +19,23 @@
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
+    margin: 0 auto;
+
+    blink{
+        animation: blinker 600ms cubic-bezier(0.19, 1, 0.22, 1) 1;
+    }
+    
+    @keyframes blinker { 
+        0%{
+            opacity: 1;
+        } 
+        50%{
+            opacity: 0;
+        }
+        100%{
+            opacity: 1;
+        }
+    }
 
     .month{
         color: white;
@@ -48,35 +66,12 @@
     font-weight: bold;
 }
 
-.content-container{
-    transform: translateY(15vh);
-    height: 45vh;
-    padding: 5vh 5%;
-    margin: 0 10%;
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: space-evenly;
-    
-    P{
-        text-align: start;
-        color: #4D4D4D;
-        
-    }
-
-    .meal-time{
-        font-size: 2.5vh;
-        font-weight: bold;
-        margin: 2vh 0 0 0;
-    }
-
-    .meal-content{
-        font-size: 2vh;
-        margin: 0 auto;
-        opacity: .5;
-    }
+.card-container{
+    height: 50vh;
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-around;
+    transition:  transform 600ms cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .decorate-container{
@@ -88,4 +83,25 @@
     border-radius: 2.5px;
     left: 50%;
     transform: translateX(-50%);
+}
+
+.date-controller{
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    width: 100%;
+    top: 65vh;
+    img{
+        width: 2vh;
+        height: 2vh;
+        cursor: pointer;
+    }
+
+    #prev{
+        margin-left: 1vw;
+    }
+
+    #next{
+        margin-right: 1vw;
+    }
 }

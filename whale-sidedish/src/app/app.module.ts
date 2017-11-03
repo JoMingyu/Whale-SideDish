@@ -7,6 +7,7 @@ import { InitialComponent } from './initial/initial.component';
 import { SearchComponent } from './search/search.component';
 import { MainComponent } from './main/main.component';
 import { HttpServiceService } from './services/http-service.service';
+import { CardComponent } from './card/card.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { HttpServiceService } from './services/http-service.service';
     InitialComponent,
     SearchComponent,
     MainComponent,
+    CardComponent,
   ],
   imports: [
     BrowserModule,

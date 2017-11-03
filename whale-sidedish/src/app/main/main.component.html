@@ -1,22 +1,22 @@
-<div class="gradient-background" [ngStyle]="setStyles()">
+<div class="gradient-background" [ngStyle]="setStyles()" #background>
   <div id="change-school" (click)="goToPrevious()">
-      <img class="logo" src="..\..\assets\svgs\change.svg">
+    <img class="logo" src="..\..\assets\svgs\change.svg">
   </div>
   <div class="summary-container">
-    <div class="month">
+    <div class="month" #elMonth>
       {{month}}
     </div>
-    <div class="date-day">
+    <div class="date-day" #dateDay>
       {{date}} {{day}}
     </div>
   </div>
-  <div class="content-container">
-    <p class="meal-time">아침</p>
-    <p class="meal-content">{{getBreakfast()}}</p>
-    <p class="meal-time">점심</p>
-    <p class="meal-content">{{getLunch()}}</p>
-    <p class="meal-time">저녁</p>
-    <p class="meal-content">{{getDinner()}}</p>
-    <footer class="decorate-container"></footer>
+  <div id="card-container" class="card-container" [ngStyle]="setTransform()" #cardContainer>
+    <div style="display:none;" #cards></div>
+    <app-card></app-card>
   </div>
+  <div class="date-controller">
+    <img id="prev" src="..\..\assets\svgs\prev.svg" (click)="showYesterday()">
+    <img id="next" src="..\..\assets\svgs\next.svg" (click)="showTomorrow()">
+  </div>
+  <footer class="decorate-container"></footer>
 </div>

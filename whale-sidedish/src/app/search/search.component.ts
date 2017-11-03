@@ -17,7 +17,6 @@ import { Meal } from '../model/meal.model';
 export class SearchComponent implements OnInit {
   public initialInstance: InitialComponent;
   public schools: any;
-  public currentSchool: any;
 
   private isFinished: boolean = false;
 
@@ -70,54 +69,14 @@ export class SearchComponent implements OnInit {
     for (let i = 0; i < svgs.length; i++)
       svgs[i].classList.remove('visible');
 
-    this.currentSchool = this.schools[index];
+    Meal.singleton().currentSchool = this.schools[index];
     svgs[index].classList.add('visible');
   }
 
   showMeal(event: Event) {
     this.initialInstance.NavigationStackCount--;
-    this.parseMeal();
+    this.httpService.parseMeal(new Date());
     Meal.isMain = true;
-  }
-
-  parseMeal() {
-    let start = performance.now();
-
-    this.httpService.getMeals(this.currentSchool.code, new Date().toISOString().slice(0, 10))
-      .subscribe(
-      data => {
-        if (data.status == 205) {
-          console.log('reload meal');
-          setTimeout(this.parseMeal(), 2000);
-        }
-        else if (data.status == 204) {
-          console.log('success but no information');
-          setTimeout(this.parseMeal(), 2000);
-        }
-        else {
-          let pattern = /\[|\]|\'/g;
-
-          let breakfast = (data.json().breakfast as string).replace(pattern, '');
-          let lunch = (data.json().lunch as string).replace(pattern, '');
-          let dinner = (data.json().dinner as string).replace(pattern, '');
-
-          Meal.singleton().meals = [];
-
-          Meal.singleton().meals.push(
-            breakfast);
-
-          Meal.singleton().meals.push(
-            lunch);
-
-          Meal.singleton().meals.push(
-            dinner);
-        }
-      },
-      error => console.log('parse error'),
-      () => { }
-      );
-    let end = performance.now();
-    console.log("Call to doSomething took " + (end - start) + " milliseconds.");
   }
 
   searchFinished(){
