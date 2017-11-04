@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, ComponentFactoryResolver, Injector, ApplicationRef, ViewContainerRef, EmbeddedViewRef, ComponentFactory } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ComponentFactoryResolver, Injector, ApplicationRef, ViewContainerRef, EmbeddedViewRef, ComponentFactory, ViewEncapsulation } from '@angular/core';
 
 import { SearchComponent } from '../search/search.component';
 import { HttpServiceService } from '../services/http-service.service';
@@ -17,7 +17,8 @@ export enum Direction{
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css'],
   providers: [SearchComponent],
-  entryComponents: [CardComponent]
+  entryComponents: [CardComponent],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class MainComponent implements OnInit {
@@ -29,8 +30,6 @@ export class MainComponent implements OnInit {
 
   public days: string[] = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
   public day: string;
-
-  public isMain: boolean = false;
 
   private currentDate: Date = new Date();
   private currentDirection : number = 0;
@@ -63,12 +62,7 @@ export class MainComponent implements OnInit {
   }
 
   setStyles() {
-    let styles = {
-        'position': 'absolute', 
-        'top': '0',
-        'z-index': Meal.isMain ? '1' : '-1'
-    };
-    return styles;
+    return {'z-index' : localStorage.getItem('isMain') === 'true' ? '1' : '-1'};
   }
 
   showYesterday(){
@@ -103,9 +97,5 @@ export class MainComponent implements OnInit {
     // container.removeChild(container.children[1]);
 
     //this.currentDirection -= 1/3;
-  }
-
-  setTransform(){
-    return {'transform':`translate(${this.currentDirection*100}%, 15vh)`};
   }
 }

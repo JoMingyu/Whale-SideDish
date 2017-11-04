@@ -37,4 +37,8 @@ export class InitialComponent{
   getStep(){
     return `translateY(-${this.NavigationStackCount * 100}%)`
   }
+
+  getZIndex(){
+    return localStorage.getItem('isMain') === "true" ? -2 : 1;
+  }
 }

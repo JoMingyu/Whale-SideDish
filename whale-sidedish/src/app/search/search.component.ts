@@ -44,21 +44,21 @@ export class SearchComponent implements OnInit {
   }
 
   searchSchoolWithButton(event: MouseEvent) {
-    this.search.nativeElement.classList.add("loading");
-    this.schools = {};
-    this.parseSchools(this.keyword.nativeElement.value);
-    this.search.nativeElement.classList.remove("loading");
-    this.isFinished = true;
+    this.searchSchool();
   }
 
   searchSchoolWithKey(event: KeyboardEvent) {
     if (event.keyCode == 13) {
-      this.search.nativeElement.classList.add("loading");
-      this.schools = {};
-      this.parseSchools(this.keyword.nativeElement.value);
-      this.search.nativeElement.classList.remove("loading");
-      this.isFinished = true;
+      this.searchSchool();
     }
+  }
+
+  searchSchool(){
+    this.search.nativeElement.classList.add("loading");
+    this.schools = {};
+    this.parseSchools(this.keyword.nativeElement.value);
+    this.search.nativeElement.classList.remove("loading");
+    localStorage.setItem('isFinished', 'true');
   }
 
   selectSchool(school: any) {
@@ -69,17 +69,19 @@ export class SearchComponent implements OnInit {
     for (let i = 0; i < svgs.length; i++)
       svgs[i].classList.remove('visible');
 
-    Meal.singleton().currentSchool = this.schools[index];
+    //Meal.singleton().currentSchool = this.schools[index];
+    //선택한 학교 저장 :)
+    Meal.singleton().saveSchool(this.schools[index]);
     svgs[index].classList.add('visible');
   }
 
   showMeal(event: Event) {
     this.initialInstance.NavigationStackCount--;
     this.httpService.parseMeal(new Date());
-    Meal.isMain = true;
+    localStorage.setItem('isMain', 'true');
   }
 
   searchFinished(){
-    return { 'display': this.isFinished ? 'inline' : 'none' };
+    return { 'display': localStorage.getItem('isFinished') === 'true' ? 'inline' : 'none' };
   }
 }

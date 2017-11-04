@@ -8,6 +8,10 @@
     width: 2vh;
     height: 2vh; }
 
+#background {
+  position: absolute;
+  top: 0; }
+
 .summary-container {
   transform: translateY(10vh);
   width: 25vh;
@@ -48,6 +52,7 @@
 .card-container {
   height: 50vh;
   width: 100%;
+  transform: translateY(15vh);
   display: inline-flex;
   justify-content: space-around;
   transition: transform 600ms cubic-bezier(0.19, 1, 0.22, 1); }

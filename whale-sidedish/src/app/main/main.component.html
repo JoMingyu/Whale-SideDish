@@ -1,4 +1,4 @@
-<div class="gradient-background" [ngStyle]="setStyles()" #background>
+<div class="gradient-background" id="background" [style.z-index]="setStyles()">
   <div id="change-school" (click)="goToPrevious()">
     <img class="logo" src="..\..\assets\svgs\change.svg">
   </div>
@@ -10,7 +10,7 @@
       {{date}} {{day}}
     </div>
   </div>
-  <div id="card-container" class="card-container" [ngStyle]="setTransform()" #cardContainer>
+  <div id="card-container" class="card-container" #cardContainer>
     <div style="display:none;" #cards></div>
     <app-card></app-card>
   </div>

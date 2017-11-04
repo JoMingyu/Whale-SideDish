@@ -1,7 +1,7 @@
 export class Meal{
     private static _instance: Meal;
+    private currentSchool: any;
     public meals: any[] = [];
-    public currentSchool: any;
     public static isMain: boolean = false;
 
     static singleton(){
@@ -10,5 +10,10 @@ export class Meal{
         }
 
         return this._instance;
+    }
+
+    saveSchool(currentSchool: any){
+        this.currentSchool = currentSchool;
+        localStorage.setItem('code', currentSchool.code);
     }
 }

@@ -26,7 +26,8 @@ export class HttpServiceService extends BaseRequestOptions{
   parseMeal(date: Date) {
     let start = performance.now();
 
-    this.getMeals(Meal.singleton().currentSchool.code, date.toISOString().slice(0, 10))
+    let code = localStorage.getItem('code');
+    this.getMeals(code, date.toISOString().slice(0, 10))
       .subscribe(
       data => {
         if (data.status == 205) {
