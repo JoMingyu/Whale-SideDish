@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Whale Sidedish</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="background">
+        <div class="gradient-background">
+            <img class="logo" src="assets/logo.png">
+            <div class="start">
+                <p id="register-label">학교를 등록해주세요</p>
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="lower-arrow" x="0px"
+                    y="0px" width="512px" height="512px" viewBox="0 0 404.308 404.309" style="enable-background:new 0 0 404.308 404.309;"
+                    xml:space="preserve">
+                    <g>
+                        <path d="M0,101.08h404.308L202.151,303.229L0,101.08z" fill="#FFFFFF" />
+                    </g>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <div class="background" id="search-background">
+        <div id="search">
+            <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css'>
+            <input id="input-school-name" placeholder="학교 검색" />
+            <button id="search-school-button">
+                <i class="fa fa-search"></i>
+                <div class="loader-wheel" style="display:none;"></div>
+            </button>
+        </div>
+        <div class="result-container">
+        </div>
+        <button class="start-button">시작</button>
+    </div>
+    <div class="gradient-background" id="main">
+        <div id="change-school">
+            <img class="logo" src="assets\change.svg">
+        </div>
+        <div class="summary-container">
+            <div class="month">
+                11
+            </div>
+            <div class="date-day">
+                sat 07
+            </div>
+        </div>
+        <div class="wrap">
+            <div class="window">
+                <div id="carousel">
+                    <span class="slide" id="b1">
+                        <div id="card-container" class="card-container">
+                            <div class="content-container">
+                                <p class="meal-time">아침</p>
+                                <p class="meal-content">{{getBreakfast()}}</p>
+                                <p class="meal-time">점심</p>
+                                <p class="meal-content">{{getLunch()}}</p>
+                                <p class="meal-time">저녁</p>
+                                <p class="meal-content">{{getDinner()}}</p>
+                            </div>
+                        </div>
+                    </span>
+                    <span class="slide" id="b2">
+                            <div class="content-container">
+                                <p class="meal-time">아침</p>
+                                <p class="meal-content">{{getBreakfast()}}</p>
+                                <p class="meal-time">점심</p>
+                                <p class="meal-content">{{getLunch()}}</p>
+                                <p class="meal-time">저녁</p>
+                                <p class="meal-content">{{getDinner()}}</p>
+                            </div>
+                    </span>
+                    <span class="slide" id="b3">
+                            <div class="content-container">
+                                <p class="meal-time">아침</p>
+                                <p class="meal-content">{{getBreakfast()}}</p>
+                                <p class="meal-time">점심</p>
+                                <p class="meal-content">{{getLunch()}}</p>
+                                <p class="meal-time">저녁</p>
+                                <p class="meal-content">{{getDinner()}}</p>
+                            </div>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="date-controller">
+            <img id="prev" src="assets/prev.svg">
+            <img id="next" src="assets/next.svg">
+        </div>
+        <footer class="decorate-container"></footer>
+    </div>
+    <script src='js/jquery-3.1.1.slim.min.js'></script>
+    <script src='js/index.js'></script>
+</body>
+<!--
+    <div id="card-container" class="card-container">
+                            <div style="display:none;"></div>
+                            <div class="content-container">
+                                <p class="meal-time">아침</p>
+                                <p class="meal-content">{{getBreakfast()}}</p>
+                                <p class="meal-time">점심</p>
+                                <p class="meal-content">{{getLunch()}}</p>
+                                <p class="meal-time">저녁</p>
+                                <p class="meal-content">{{getDinner()}}</p>
+                            </div>
+                        </div>
+-->
+
+</html>
