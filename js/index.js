@@ -32,21 +32,18 @@ $(document).ready(function () {
     if (localStorage.getItem('main') === "true")
         main.css('display', 'inherit');
 
-    /// Disable parsing
-    //initialize main
-    // month = (currentDate.getMonth() + 1).toString();
-    // date = currentDate.getDate().toString();
-    // day = days[currentDate.getDay()];
+    var mealContents = $(".slide .meal-content");
+    currentDate.setDate(currentDate.getDate() - 1);
+    mealContents[0].innerText = currentDate.toISOString();
 
-    // monthLabel.html(month);
-    // dateDayLabel.html(date + ' ' + day);
+    currentDate.setDate(currentDate.getDate() + 1);
+    mealContents[3].innerText = currentDate.toISOString();
 
-    // currentDate.setDate(currentDate.getDate() - 1);
-    // getMeal(currentDate, b1);
-    // currentDate.setDate(currentDate.getDate());
-    // getMeal(currentDate, b2);
-    // currentDate.setDate(currentDate.getDate() + 1);
-    // getMeal(currentDate, b3);
+    currentDate.setDate(currentDate.getDate() + 1);
+    mealContents[6].innerText = currentDate.toISOString();
+
+    //reset to today
+    currentDate.setDate(currentDate.getDate() - 1);
 
     registerLabel.hover(
         function () {
@@ -97,6 +94,22 @@ $(document).ready(function () {
 
         localStorage.setItem('main', true);
         localStorage.setItem('code', $('.school-name').attr('id'));
+
+        var formData = new FormData();
+        formData.append('code', localStorage.getItem('code'));
+        var requestUrl = "http://52.79.134.200:5959/school-search/" + localStorage.getItem('code');
+        $.ajax({
+            url: requestUrl,
+            data: formData,
+            beforeSend: function (xhrObj) {
+                xhrObj.setRequestHeader("Content-Type", "application/json");
+                xhrObj.setRequestHeader("Accept", "application/json");
+            },
+            contentType: "application/json;charset=utf-8",
+            type: "POST",
+        }).then(function (data, responseText, jqXHR) {
+            console.log(data);
+        });
     });
 
     var carousel = $('#carousel'),
@@ -106,13 +119,10 @@ $(document).ready(function () {
         dragEnd;
 
     $('#next').click(function () {
-        currentDate.setDate(currentDate.getDate() - 1);
-        getMeal(currentDate);
         shiftSlide(-1);
     });
 
     $('#prev').click(function () {
-        currentDate.setDate(currentDate.getDate() + 1);
         shiftSlide(1);
     });
 
@@ -142,10 +152,19 @@ $(document).ready(function () {
             .addClass('transition')
             .css('transform', 'translateX(' + (direction * slideWidth) + 'px)');
         setTimeout(function () {
+            var slides = $('.slide');
             if (direction === 1) {
-                $('.slide:first').before($('.slide:last'));
+                slides[0].before(slides[2]);
+                currentDate.setDate(currentDate.getDate() - 1);
+                var contents = $('.slide:first').find('.meal-content');
+                contents[0].innerText = currentDate.toISOString();
+                refreshDate();
             } else if (direction === -1) {
-                $('.slide:last').after($('.slide:first'));
+                slides[2].after(slides[0]);
+                currentDate.setDate(currentDate.getDate() + 1);
+                var contents = $('.slide:last').find('.meal-content');
+                contents[0].innerText = currentDate.toISOString();
+                refreshDate();
             }
             carousel.removeClass('transition')
             carousel.css('transform', 'translateX(0px)');
@@ -168,13 +187,22 @@ function getMeal(day, target) {
         contentType: "application/json;charset=utf-8",
         type: "GET",
     }).then(function (data, responseText, jqXHR) {
-        var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
-        if (jqXHR.status == 200) {
-            target[0].innerText = data.breakfast.replace(regExp, '');
-            target[1].innerText = data.lunch.replace(regExp, '');
-            target[2].innerText = data.dinner.replace(regExp, '');
-        }
+        // var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
+        // if (jqXHR.status == 200) {
+        //     target[0].innerText = data.breakfast.replace(regExp, '');
+        //     target[1].innerText = data.lunch.replace(regExp, '');
+        //     target[2].innerText = data.dinner.replace(regExp, '');
+        // }
     });
+}
+
+function refreshDate(){
+    month = (currentDate.getMonth() + 1).toString();
+    date = currentDate.getDate().toString();
+    day = days[currentDate.getDay()];
+
+    monthLabel.html(month);
+    dateDayLabel.html(date + ' ' + day);
 }
 
 function searchSchool() {
