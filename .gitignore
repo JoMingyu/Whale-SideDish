@@ -101,3 +101,5 @@ ENV/
 .mypy_cache/
 Server/.idea/workspace.xml
 Server/.idea/inspectionProfiles/Project_Default.xml
+Server/.idea/misc.xml
+Server/.idea/Server.iml

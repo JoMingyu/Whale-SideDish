@@ -1,12 +1,10 @@
-# -*- coding: utf8 -*-
-
 from db.mongodb import *
 
 
 class MealModel(EmbeddedDocument):
-    breakfast = StringField()
-    lunch = StringField()
-    dinner = StringField()
+    breakfast = ListField()
+    lunch = ListField()
+    dinner = ListField()
 
 
 class MealScheduleModel(Document):
