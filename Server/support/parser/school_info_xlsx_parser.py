@@ -1,5 +1,3 @@
-# -*- coding: utf8 -*-
-
 from openpyxl import load_workbook
 
 from db.models.school import SchoolModel
