@@ -23,24 +23,37 @@ var b2 = $('#b2 .meal-content');
 var b3 = $('#b3 .meal-content');
 
 var currentDate = new Date();
+var prevDate = new Date();
+prevDate.setDate(prevDate.getDate() - 1);
+var nextDate = new Date();
+nextDate.setDate(nextDate.getDate() + 1);
+
 var month;
 var date;
 var day;
 var days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 
+var bufferDate = [
+    prevDate,
+    currentDate,
+    nextDate
+];
+
 $(document).ready(function () {
     if (localStorage.getItem('main') === "true")
         main.css('display', 'inherit');
 
+    refreshDate();
+
     var mealContents = $(".slide .meal-content");
     currentDate.setDate(currentDate.getDate() - 1);
-    mealContents[0].innerText = currentDate.toISOString();
+    mealContents[0].innerText = currentDate.toString();
 
     currentDate.setDate(currentDate.getDate() + 1);
-    mealContents[3].innerText = currentDate.toISOString();
+    mealContents[3].innerText = currentDate.toString();
 
     currentDate.setDate(currentDate.getDate() + 1);
-    mealContents[6].innerText = currentDate.toISOString();
+    mealContents[6].innerText = currentDate.toString();
 
     //reset to today
     currentDate.setDate(currentDate.getDate() - 1);
@@ -154,16 +167,20 @@ $(document).ready(function () {
         setTimeout(function () {
             var slides = $('.slide');
             if (direction === 1) {
+                $.each(bufferDate, function (indexInArray, valueOfElement) { 
+                    valueOfElement.setDate(valueOfElement.getDate() - 1)
+               });
                 slides[0].before(slides[2]);
-                currentDate.setDate(currentDate.getDate() - 1);
                 var contents = $('.slide:first').find('.meal-content');
-                contents[0].innerText = currentDate.toISOString();
+                getMeal(bufferDate[0], contents);
                 refreshDate();
             } else if (direction === -1) {
+                $.each(bufferDate, function (indexInArray, valueOfElement) { 
+                     valueOfElement.setDate(valueOfElement.getDate() + 1)
+                });
                 slides[2].after(slides[0]);
-                currentDate.setDate(currentDate.getDate() + 1);
                 var contents = $('.slide:last').find('.meal-content');
-                contents[0].innerText = currentDate.toISOString();
+                getMeal(bufferDate[2], contents);
                 refreshDate();
             }
             carousel.removeClass('transition')
@@ -177,7 +194,7 @@ $(document).ready(function () {
 
 function getMeal(day, target) {
     var requestUrl = "http://52.79.134.200:5959/meal/" + localStorage.getItem('code') + "?date=" + day.toISOString().slice(0, 10);
-    console.log(requestUrl);
+    var result = {};
     $.ajax({
         url: requestUrl,
         beforeSend: function (xhrObj) {
@@ -187,13 +204,23 @@ function getMeal(day, target) {
         contentType: "application/json;charset=utf-8",
         type: "GET",
     }).then(function (data, responseText, jqXHR) {
-        // var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
-        // if (jqXHR.status == 200) {
-        //     target[0].innerText = data.breakfast.replace(regExp, '');
-        //     target[1].innerText = data.lunch.replace(regExp, '');
-        //     target[2].innerText = data.dinner.replace(regExp, '');
-        // }
+        var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
+        if (jqXHR.status == 200) {
+            target[0].innerText = day.toString() + '\n' + data.breakfast.replace(regExp, '');
+            target[1].innerText = data.lunch.replace(regExp, '');
+            target[2].innerText = data.dinner.replace(regExp, '');
+        }
+        else{
+            target[0].innerText = day.toString() + '\n' + 'no content';
+            target[1].innerText = 'no content';
+            target[2].innerText = 'no content';
+
+            console.log('parse failed');
+            getMeal(day, target);
+        }
     });
+
+    return result;
 }
 
 function refreshDate(){
