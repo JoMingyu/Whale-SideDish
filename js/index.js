@@ -46,17 +46,10 @@ $(document).ready(function () {
     refreshDate();
 
     var mealContents = $(".slide .meal-content");
-    currentDate.setDate(currentDate.getDate() - 1);
-    mealContents[0].innerText = currentDate.toString();
-
-    currentDate.setDate(currentDate.getDate() + 1);
+    mealContents[0].innerText = prevDate.toString();
     mealContents[3].innerText = currentDate.toString();
+    mealContents[6].innerText = nextDate.toString();
 
-    currentDate.setDate(currentDate.getDate() + 1);
-    mealContents[6].innerText = currentDate.toString();
-
-    //reset to today
-    currentDate.setDate(currentDate.getDate() - 1);
 
     registerLabel.hover(
         function () {
@@ -149,7 +142,7 @@ $(document).ready(function () {
         $(document).on('mouseup', function () {
             if (dragPos() > threshold) { return shiftSlide(1) }
             if (dragPos() < -threshold) { return shiftSlide(-1) }
-            shiftSlide(0);
+            else shiftSlide(0);
         })
     });
 
@@ -169,18 +162,18 @@ $(document).ready(function () {
             if (direction === 1) {
                 $.each(bufferDate, function (indexInArray, valueOfElement) { 
                     valueOfElement.setDate(valueOfElement.getDate() - 1)
-               });
+                });
                 slides[0].before(slides[2]);
-                var contents = $('.slide:first').find('.meal-content');
-                getMeal(bufferDate[0], contents);
+                var contents = $('.slide').eq(1).find('.meal-content');
+                getMeal(bufferDate[1], contents);
                 refreshDate();
             } else if (direction === -1) {
                 $.each(bufferDate, function (indexInArray, valueOfElement) { 
-                     valueOfElement.setDate(valueOfElement.getDate() + 1)
+                        valueOfElement.setDate(valueOfElement.getDate() + 1)
                 });
                 slides[2].after(slides[0]);
-                var contents = $('.slide:last').find('.meal-content');
-                getMeal(bufferDate[2], contents);
+                var contents = $('.slide').eq(1).find('.meal-content');
+                getMeal(bufferDate[1], contents);
                 refreshDate();
             }
             carousel.removeClass('transition')
