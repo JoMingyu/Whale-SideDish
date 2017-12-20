@@ -186,16 +186,18 @@ $(document).ready(function () {
 });
 
 function getMeal(day, target) {
-    var requestUrl = "http://52.79.134.200:5959/meal/" + localStorage.getItem('code') + "?date=" + day.toISOString().slice(0, 10);
+    var dateFormat = day.toISOString().slice(0, 10).split("-").join("/");
+    var requestUrl = "http://localhost:49873/api/meal/" + localStorage.getItem('code') + "/" + dateFormat;
     var result = {};
     $.ajax({
         url: requestUrl,
-        beforeSend: function (xhrObj) {
-            xhrObj.setRequestHeader("Content-Type", "application/json");
-            xhrObj.setRequestHeader("Accept", "application/json");
-        },
-        contentType: "application/json;charset=utf-8",
         type: "GET",
+        success: function(data) {
+            var parsedData = JSON.parse(data).result;
+        },
+        error: function() {
+            console.log("error");
+        }
     }).then(function (data, responseText, jqXHR) {
         var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
         if (jqXHR.status == 200) {
