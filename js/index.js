@@ -18,6 +18,8 @@ var main = $("#main");
 var monthLabel = $('.month');
 var dateDayLabel = $('.date-day');
 
+var changeSchoolButton = $("#change-school");
+
 var b1 = $('#b1 .meal-content');
 var b2 = $('#b2 .meal-content');
 var b3 = $('#b3 .meal-content');
@@ -40,16 +42,13 @@ var bufferDate = [
 ];
 
 $(document).ready(function () {
-    if (localStorage.getItem('main') === "true")
+    if (localStorage.getItem('main') === "true"){
         main.css('display', 'inherit');
-
-    refreshDate();
-
+        refreshDate();
+        getMeal(currentDate, $('.slide').eq(1).find('.meal-content'));
+    }
+    
     var mealContents = $(".slide .meal-content");
-    mealContents[0].innerText = prevDate.toString();
-    mealContents[3].innerText = currentDate.toString();
-    mealContents[6].innerText = nextDate.toString();
-
 
     registerLabel.hover(
         function () {
@@ -84,6 +83,12 @@ $(document).ready(function () {
         searchSchool();
     });
 
+    changeSchoolButton.click(function(e){
+        e.preventDefault();
+        $('body').css('transform', 'translateY(-100vh)');
+        getMeal(currentDate, $('.slide').eq(1).find('.meal-content'));
+    });
+
     resultContainer.on('click', 'input:radio', function (e) {
         // e.preventDefault();
         $('input:radio').each(function () {
@@ -95,11 +100,16 @@ $(document).ready(function () {
 
     startButton.click(function (e) {
         e.preventDefault();
-        $('body').css('transform', 'translateY(0)');
-        main.css('display', 'inherit');
 
+        $('body').css('transform', 'translateY(0)');
+        $('.logo').css('display', 'none');
+        $('.start').css('display', 'none');
+        
+        main.css('display', 'inherit');
         localStorage.setItem('main', true);
         localStorage.setItem('code', $('.school-name').attr('id'));
+
+        getMeal(currentDate, $('.slide').eq(1).find('.meal-content'));
 
         var formData = new FormData();
         formData.append('code', localStorage.getItem('code'));
@@ -119,7 +129,7 @@ $(document).ready(function () {
     });
 
     var carousel = $('#carousel'),
-        threshold = 150,
+        threshold = 70,
         slideWidth = 390,
         dragStart,
         dragEnd;
@@ -192,26 +202,33 @@ function getMeal(day, target) {
     $.ajax({
         url: requestUrl,
         type: "GET",
-        success: function(data) {
-            var parsedData = JSON.parse(data).result;
-        },
         error: function() {
             console.log("error");
         }
     }).then(function (data, responseText, jqXHR) {
         var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
         if (jqXHR.status == 200) {
-            target[0].innerText = day.toString() + '\n' + data.breakfast.replace(regExp, '');
-            target[1].innerText = data.lunch.replace(regExp, '');
-            target[2].innerText = data.dinner.replace(regExp, '');
+            if(data.breakfast != null)
+                target[0].innerText = data.breakfast.join();
+            else
+                target[0].innerText = "급식이 없습니다"
+
+            if(data.lunch != null)
+                target[1].innerText = data.lunch.join();
+            else
+                target[1].innerText = "급식이 없습니다"
+
+            if(data.dinner != null)
+                target[2].innerText = data.dinner.join();
+            else
+                target[2].innerText = "급식이 없습니다"
         }
         else{
-            target[0].innerText = day.toString() + '\n' + 'no content';
+            target[0].innerText = 'no content';
             target[1].innerText = 'no content';
             target[2].innerText = 'no content';
 
             console.log('parse failed');
-            getMeal(day, target);
         }
     });
 
