@@ -197,7 +197,7 @@ $(document).ready(function () {
 
 function getMeal(day, target) {
     var dateFormat = day.toISOString().slice(0, 10).split("-").join("/");
-    var requestUrl = "http://localhost:49873/api/meal/" + localStorage.getItem('code') + "/" + dateFormat;
+    var requestUrl = "http://mealparseserver20171222102450.azurewebsites.net/api/meal/" + localStorage.getItem('code') + "/" + dateFormat;
     var result = {};
     $.ajax({
         url: requestUrl,
