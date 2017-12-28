@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SchoolMeal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,6 @@ namespace MealParseServer.Models
 
         }
 
-        public DbSet<DayMeal> Meals { get; set; }
+        public DbSet<MealMenu> Meals { get; set; }
     }
 }

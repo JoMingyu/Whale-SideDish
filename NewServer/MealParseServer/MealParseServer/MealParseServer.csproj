@@ -4,7 +4,24 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
   <ItemGroup>
+    <None Remove="Properties\PublishProfiles\MealParseServer20171228102803 - Web Deploy.pubxml" />
+    <None Remove="Properties\PublishProfiles\MealParseServer20171228104704 - Web Deploy.pubxml" />
+    <None Remove="Properties\PublishProfiles\MealParseServer20171228105921 - Web Deploy.pubxml" />
+    <None Remove="Properties\PublishProfiles\MealParseServer20171228110619 - Web Deploy.pubxml" />
+    <None Remove="Properties\PublishProfiles\MealParseServer20171228111915 - Web Deploy.pubxml" />
+    <None Remove="Properties\PublishProfiles\MealParseServer20171228112548 - Web Deploy.pubxml" />
+    <None Remove="Properties\PublishProfiles\MealParseServer20171228113957 - Web Deploy.pubxml" />
+    <None Remove="Properties\PublishProfiles\parsemeal - Web Deploy.pubxml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

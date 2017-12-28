@@ -41,6 +41,37 @@ var bufferDate = [
     nextDate
 ];
 
+var regions = {
+    Seoul : 0,
+    Incheon : 1,
+    Busan : 2,
+    Gwangju : 3,
+    Daejeon : 4,
+    Daegu : 5,
+    Sejong : 6,
+    Ulsan : 7,
+    Gyeongggi : 8,
+    Kangwon : 9,
+    Chungbuk : 10,
+    Chungnam : 11,
+    Gyeongbuk : 12,
+    Gyeongnam : 13,
+    Jeonbuk : 14,
+    Jeonnam : 15,
+    Jeju : 16,
+}
+
+var schools = {
+    Kindergarden : 0,
+    Elementary : 1,
+    Middle : 2,
+    High : 3
+};
+
+var breakfastWord = "[조식]";
+var lunchWord = "[중식]";
+var dinnerWord = "[석식]"; 
+
 $(document).ready(function () {
     if (localStorage.getItem('main') === "true"){
         main.css('display', 'inherit');
@@ -110,6 +141,7 @@ $(document).ready(function () {
         localStorage.setItem('code', $('.school-name').attr('id'));
 
         getMeal(currentDate, $('.slide').eq(1).find('.meal-content'));
+        refreshDate();
 
         var formData = new FormData();
         formData.append('code', localStorage.getItem('code'));
@@ -196,43 +228,79 @@ $(document).ready(function () {
 });
 
 function getMeal(day, target) {
-    var dateFormat = day.toISOString().slice(0, 10).split("-").join("/");
-    var requestUrl = "http://mealparseserver20171222102450.azurewebsites.net/api/meal/" + localStorage.getItem('code') + "/" + dateFormat;
-    var result = {};
-    $.ajax({
-        url: requestUrl,
-        type: "GET",
-        error: function() {
-            console.log("error");
+    var code = localStorage.getItem('code');
+    var schoolType = schoolTypeToInt(schools.High);
+    var year = day.toISOString().slice(0, 10).substring(0, 4);
+    var month = day.toISOString().slice(0, 10).substring(5, 7);
+    var _day = day.toISOString().slice(0, 10).substring(8, 10);
+
+    if(_day.substring(0, 1) == '0')
+        _day = _day.substring(1, 2);
+
+
+    var url = "http://" + regionToString(codeToRegion(code)) + "/" + "sts_sci_md00_001.do" +
+    "?" + "schulCode=" + code + "&" + "schulCrseScCode=" + schoolType +
+    "&" + "schulKndScCode=" + "0" + schoolType + "&" + "ay=" + year + "&" + "mm=" + month;
+
+    var parsedDom = getSourceAsDOM(url);
+    var tbody = parsedDom.getElementsByTagName('tbody');
+    var trows = tbody[0].children;
+
+    var matchMeal = [];
+    $.each(trows, function (indexInArray, valueOfElement) { 
+         $.each(valueOfElement.children, function (_indexInArray, _valueOfElement) { 
+              var words = _valueOfElement.children[0].innerText.split('\n');
+              if(words[0] == _day){
+                  matchMeal = words;
+              }
+         });
+    });
+
+    var breakfast = [];
+    var lunch = [];
+    var dinner = [];
+
+    matchMeal.forEach(element => {
+        if(element == breakfastWord){
+            var breakfastIndex = matchMeal.indexOf(element);
+
+            if(matchMeal.includes(lunchWord)){
+                var lunchindex = matchMeal.indexOf(lunchWord);
+                for(var i = breakfastIndex + 1; i < lunchindex; i++)
+                    breakfast.push(matchMeal[i]);
+            }else if(matchMeal.includes(dinnerWord)){
+                var dinnerindex = matchMeal.indexOf(dinnerWord);
+                for(var i = breakfastIndex + 1; i < dinnerindex; i++)
+                    breakfast.push(matchMeal[i]);
+            }else{
+                breakfast = matchMeal;
+                breakfast.shift();
+                breakfast.shift();
+            }
         }
-    }).then(function (data, responseText, jqXHR) {
-        var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
-        if (jqXHR.status == 200) {
-            if(data.breakfast != null)
-                target[0].innerText = data.breakfast.join();
-            else
-                target[0].innerText = "급식이 없습니다"
-
-            if(data.lunch != null)
-                target[1].innerText = data.lunch.join();
-            else
-                target[1].innerText = "급식이 없습니다"
-
-            if(data.dinner != null)
-                target[2].innerText = data.dinner.join();
-            else
-                target[2].innerText = "급식이 없습니다"
+        if(element == lunchWord){
+            var lunchindex = matchMeal.indexOf(element);
+            if(matchMeal.includes(dinnerWord)){
+                var dinnerindex = matchMeal.indexOf(dinnerWord);
+                for(var i = lunchindex + 1; i < dinnerindex; i++)
+                    lunch.push(matchMeal[i]);
+            }else{
+                var lastindex = matchMeal.length - 1;
+                for(var i = lunchindex + 1; i < lastindex; i++)
+                    lunch.push(matchMeal[i]);
+            }
         }
-        else{
-            target[0].innerText = 'no content';
-            target[1].innerText = 'no content';
-            target[2].innerText = 'no content';
-
-            console.log('parse failed');
+        if(element == dinnerWord){
+            var dinnerindex = matchMeal.indexOf(element);
+            var lastindex = matchMeal.length - 1;
+            for(var i = dinnerindex + 1; i < lastindex; i++)
+                dinner.push(matchMeal[i]);
         }
     });
 
-    return result;
+    target[0].innerText = breakfast.join(' ');
+    target[1].innerText = lunch.join(' ');
+    target[2].innerText = dinner.join(' ');
 }
 
 function refreshDate(){
@@ -281,5 +349,139 @@ function searchSchool() {
 
     search.css('display', 'inherit');
     loaderWheel.css('display', 'none');
+}
+
+function codeToRegion(code){
+    var result = 0;
+    var c = code[0];
+
+    if (c == 'B')
+        result = regions.Seoul;
+    else if (c == 'C')
+        result = regions.Busan;
+    else if (c == 'D')
+        result = regions.Daegu;
+    else if (c == 'E')
+        result = regions.Incheon;
+    else if (c == 'F')
+        result = regions.Gwangju;
+    else if (c == 'G')
+        result = regions.Daejeon;
+    else if (c == 'H')
+        result = regions.Ulsan;
+    else if (c == 'I') { }
+    else if (c == 'J')
+        result = regions.Gyeonggi;
+    else if (c == 'K')
+        result = regions.Kangwon;
+    else if (c == 'L') { }
+    else if (c == 'M')
+        result = regions.Chungbuk;
+    else if (c == 'N')
+        result = regions.Chungnam;
+    else if (c == 'O') { }
+    else if (c == 'P')
+        result = regions.Jeonbuk;
+    else if (c == 'Q')
+        result = regions.Jeonnam;
+    else if (c == 'R')
+        result = regions.Gyeongbuk;
+    else if (c == 'S')
+        result = regions.Gyeongnam;
+    else if (c == 'T')
+        result = regions.Jeju;
+
+    return result;
+}
+
+function regionToString(region){
+    var result = "";
+    switch (region)
+    {
+        case regions.Seoul:
+            result = "stu.sen.go.kr";
+            break;
+        case regions.Incheon:
+            result = "stu.ice.go.kr";
+            break;
+        case regions.Busan:
+            result = "stu.pen.go.kr";
+            break;
+        case regions.Gwangju:
+            result = "stu.gen.go.kr";
+            break;
+        case regions.Daejeon:
+            result = "stu.dje.go.kr";
+            break;
+        case regions.Daegu:
+            result = "stu.dge.go.kr";
+            break;
+        case regions.Sejong:
+            result = "stu.sje.go.kr";
+            break;
+        case regions.Ulsan:
+            result = "stu.use.go.kr";
+            break;
+        case regions.Gyeonggi:
+            result = "stu.goe.go.kr";
+            break;
+        case regions.Kangwon:
+            result = "stu.kwe.go.kr";
+            break;
+        case regions.Chungbuk:
+            result = "stu.cbe.go.kr";
+            break;
+        case regions.Chungnam:
+            result = "stu.cne.go.kr";
+            break;
+        case regions.Gyeongbuk:
+            result = "stu.gbe.go.kr";
+            break;
+        case regions.Gyeongnam:
+            result = "stu.gne.go.kr";
+            break;
+        case regions.Jeonbuk:
+            result = "stu.jbe.go.kr";
+            break;
+        case regions.Jeonnam:
+            result = "jne.go.kr";
+            break;
+        case regions.Jeju:
+            result = "stu.jje.go.kr";
+            break;
+        default:
+            break;
+    }
+
+    return result;
+}
+
+function schoolTypeToInt(schoolType){
+    var result = "";
+    switch(schoolType){
+        case schools.Kindergarden:
+        result = "1";
+        break;
+        case schools.Elementary:
+        result = "2";
+        break;
+        case schools.Middle:
+        result = "3";
+        break;
+        case schools.High:
+        result = "4";
+        break;
+    }
+
+    return result;
+}
+
+function getSourceAsDOM(url)
+{
+    xmlhttp=new XMLHttpRequest();
+    xmlhttp.open("GET",url,false);
+    xmlhttp.send();
+    parser=new DOMParser();
+    return parser.parseFromString(xmlhttp.responseText,"text/html");      
 }
 

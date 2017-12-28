@@ -12,6 +12,8 @@ namespace SchoolMeal
     [Serializable]
     public class MealMenu
     {
+        public long Id { get; set; }
+
         /// <summary>
         /// 해당 날짜에 급식의 존재 여부를 제공합니다.
         /// </summary>
@@ -42,6 +44,11 @@ namespace SchoolMeal
         /// 저녁메뉴를 제공합니다. 저녁메뉴가 존재하지 않으면 null을 반환합니다.
         /// </summary>
         public List<string> Dinner { get; }
+
+        public MealMenu()
+        {
+
+        }
 
         /// <summary>
         /// 식사메뉴를 지정하여 <see cref="MealMenu"/>클래스의 새 인스턴스를 초기화합니다. 식사메뉴가 존재하지 않는다면 null을 지정합니다.
