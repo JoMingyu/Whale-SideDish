@@ -231,9 +231,13 @@ $(document).ready(function () {
 function getMeal(day, target) {
     var code = localStorage.getItem('code');
     var schoolType = schoolTypeToInt(schools.High);
-    var year = day.toISOString().slice(0, 10).substring(0, 4);
-    var month = day.toISOString().slice(0, 10).substring(5, 7);
-    var _day = day.toISOString().slice(0, 10).substring(8, 10);
+
+    var tzoffset = day.getTimezoneOffset() * 60000; //offset in milliseconds
+    var localISOTime = (new Date(day - tzoffset)).toISOString().slice(0, 10);
+
+    var year = localISOTime.substring(0, 4);
+    var month = localISOTime.substring(5, 7);
+    var _day = localISOTime.substring(8, 10);
 
     if(_day.substring(0, 1) == '0')
         _day = _day.substring(1, 2);

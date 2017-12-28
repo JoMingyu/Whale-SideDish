@@ -28,7 +28,7 @@ namespace MealParseServer.Controllers
         [HttpGet]
         public IEnumerable<MealMenu> GetAll()
         {
-            var meal = new Meal(Regions.Daejeon, SchoolType.High, "G100000170", "2017", "12");
+            var meal = new Meal(Regions.Incheon, SchoolType.High, "E100001972", "2017", "12");
             var menus = meal.GetMealMenu();
 
             foreach (var element in menus)
