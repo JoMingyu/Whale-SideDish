@@ -1,6 +1,4 @@
 body {
-min-width: 390px;
-max-width: 390px;
 margin: 0;
 overflow: hidden;
 transition: transform 1200ms cubic-bezier(0.19, 1, 0.22, 1);
@@ -163,8 +161,9 @@ font-size: 2vh;
 font-weight: 100;
 opacity: 0.5; }
 .result-container .check {
-width: 1.5vh;
-height: 1.5vh;
+width: 2vh;
+height: 2vh;
+min-width: 2vh;
 margin: auto 20px auto 0px;
 transition-property: opacity;
 will-change: opacity;
