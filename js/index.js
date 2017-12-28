@@ -117,6 +117,7 @@ $(document).ready(function () {
     changeSchoolButton.click(function(e){
         e.preventDefault();
         $('body').css('transform', 'translateY(-100vh)');
+        $('.start').css('display', 'none');
         getMeal(currentDate, $('.slide').eq(1).find('.meal-content'));
     });
 
