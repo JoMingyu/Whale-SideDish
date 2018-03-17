@@ -138,27 +138,19 @@ $(document).ready(function () {
         $('.start').css('display', 'none');
 
         main.css('display', 'inherit');
+
+        var selectedRadio = $('input:radio:checked');
+        var selectedRow = selectedRadio.parent();
+
+        var region = selectedRow.find('.region-name').text();
+        var code = selectedRow.find('.school-name').attr('id');
+
         localStorage.setItem('main', true);
-        localStorage.setItem('code', $('.school-name').attr('id'));
+        localStorage.setItem('code', code);
+        localStorage.setItem('region', region);
 
         getMeal(currentDate, $('.slide').eq(1).find('.meal-content'));
         refreshDate();
-
-        var formData = new FormData();
-        formData.append('code', localStorage.getItem('code'));
-        var requestUrl = "http://52.79.134.200:5959/school-search/" + localStorage.getItem('code');
-        $.ajax({
-            url: requestUrl,
-            data: formData,
-            beforeSend: function (xhrObj) {
-                xhrObj.setRequestHeader("Content-Type", "application/json");
-                xhrObj.setRequestHeader("Accept", "application/json");
-            },
-            contentType: "application/json;charset=utf-8",
-            type: "POST",
-        }).then(function (data, responseText, jqXHR) {
-            console.log(data);
-        });
     });
 
     var carousel = $('#carousel'),
@@ -243,7 +235,7 @@ function getMeal(day, target) {
         _day = _day.substring(1, 2);
 
 
-    var url = "http://" + regionToString(codeToRegion(code)) + "/" + "sts_sci_md00_001.do" +
+    var url = "http://" + regionToString(localStorage.getItem('region')) + "/" + "sts_sci_md00_001.do" +
         "?" + "schulCode=" + code + "&" + "schulCrseScCode=" + schoolType +
         "&" + "schulKndScCode=" + "0" + schoolType + "&" + "ay=" + year + "&" + "mm=" + month;
 
@@ -345,7 +337,6 @@ function searchSchool() {
                 + '</div>';
 
             container += content;
-            console.log(element);
         }, this);
 
         container += '</div>';
@@ -357,101 +348,58 @@ function searchSchool() {
     loaderWheel.css('display', 'none');
 }
 
-function codeToRegion(code) {
-    var result = 0;
-    var c = code[0];
-
-    if (c == 'B')
-        result = regions.Seoul;
-    else if (c == 'C')
-        result = regions.Busan;
-    else if (c == 'D')
-        result = regions.Daegu;
-    else if (c == 'E')
-        result = regions.Incheon;
-    else if (c == 'F')
-        result = regions.Gwangju;
-    else if (c == 'G')
-        result = regions.Daejeon;
-    else if (c == 'H')
-        result = regions.Ulsan;
-    else if (c == 'I') { }
-    else if (c == 'J')
-        result = regions.Gyeonggi;
-    else if (c == 'K')
-        result = regions.Kangwon;
-    else if (c == 'L') { }
-    else if (c == 'M')
-        result = regions.Chungbuk;
-    else if (c == 'N')
-        result = regions.Chungnam;
-    else if (c == 'O') { }
-    else if (c == 'P')
-        result = regions.Jeonbuk;
-    else if (c == 'Q')
-        result = regions.Jeonnam;
-    else if (c == 'R')
-        result = regions.Gyeongbuk;
-    else if (c == 'S')
-        result = regions.Gyeongnam;
-    else if (c == 'T')
-        result = regions.Jeju;
-
-    return result;
-}
-
 function regionToString(region) {
     var result = "";
     switch (region) {
-        case regions.Seoul:
+        case "서울특별시":
             result = "stu.sen.go.kr";
             break;
-        case regions.Incheon:
+        case "인천광역시":
             result = "stu.ice.go.kr";
             break;
-        case regions.Busan:
+        case "부산광역시":
             result = "stu.pen.go.kr";
             break;
-        case regions.Gwangju:
+        case "광주광역시":
             result = "stu.gen.go.kr";
             break;
-        case regions.Daejeon:
+        case "대전광역시":
             result = "stu.dje.go.kr";
             break;
-        case regions.Daegu:
+        case "대구광역시":
             result = "stu.dge.go.kr";
             break;
-        case regions.Sejong:
+        case "세종특별자치시":
             result = "stu.sje.go.kr";
             break;
-        case regions.Ulsan:
+        case "울산광역시":
             result = "stu.use.go.kr";
             break;
-        case regions.Gyeonggi:
+        case "경기도":
             result = "stu.goe.go.kr";
             break;
-        case regions.Kangwon:
+        case "강원도":
             result = "stu.kwe.go.kr";
             break;
-        case regions.Chungbuk:
+        case "충청북도":
             result = "stu.cbe.go.kr";
             break;
-        case regions.Chungnam:
+        case "충청남도":
             result = "stu.cne.go.kr";
             break;
-        case regions.Gyeongbuk:
+        case "경상북도":
             result = "stu.gbe.go.kr";
             break;
-        case regions.Gyeongnam:
+        case "경상남도":
             result = "stu.gne.go.kr";
             break;
-        case regions.Jeonbuk:
+        case "전라북도":
             result = "stu.jbe.go.kr";
             break;
-        case regions.Jeonnam:
+        case "전라남도":
             result = "jne.go.kr";
             break;
-        case regions.Jeju:
+        case "제주특별자치도":
             result = "stu.jje.go.kr";
             break;
         default:
