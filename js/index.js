@@ -42,43 +42,43 @@ var bufferDate = [
 ];
 
 var regions = {
-    Seoul : 0,
-    Incheon : 1,
-    Busan : 2,
-    Gwangju : 3,
-    Daejeon : 4,
-    Daegu : 5,
-    Sejong : 6,
-    Ulsan : 7,
-    Gyeongggi : 8,
-    Kangwon : 9,
-    Chungbuk : 10,
-    Chungnam : 11,
-    Gyeongbuk : 12,
-    Gyeongnam : 13,
-    Jeonbuk : 14,
-    Jeonnam : 15,
-    Jeju : 16,
+    Seoul: 0,
+    Incheon: 1,
+    Busan: 2,
+    Gwangju: 3,
+    Daejeon: 4,
+    Daegu: 5,
+    Sejong: 6,
+    Ulsan: 7,
+    Gyeongggi: 8,
+    Kangwon: 9,
+    Chungbuk: 10,
+    Chungnam: 11,
+    Gyeongbuk: 12,
+    Gyeongnam: 13,
+    Jeonbuk: 14,
+    Jeonnam: 15,
+    Jeju: 16,
 }
 
 var schools = {
-    Kindergarden : 0,
-    Elementary : 1,
-    Middle : 2,
-    High : 3
+    Kindergarden: 0,
+    Elementary: 1,
+    Middle: 2,
+    High: 3
 };
 
 var breakfastWord = "[조식]";
 var lunchWord = "[중식]";
-var dinnerWord = "[석식]"; 
+var dinnerWord = "[석식]";
 
 $(document).ready(function () {
-    if (localStorage.getItem('main') === "true"){
+    if (localStorage.getItem('main') === "true") {
         main.css('display', 'inherit');
         refreshDate();
         getMeal(currentDate, $('.slide').eq(1).find('.meal-content'));
     }
-    
+
     var mealContents = $(".slide .meal-content");
 
     registerLabel.hover(
@@ -114,7 +114,7 @@ $(document).ready(function () {
         searchSchool();
     });
 
-    changeSchoolButton.click(function(e){
+    changeSchoolButton.click(function (e) {
         e.preventDefault();
         $('body').css('transform', 'translateY(-100vh)');
         $('.start').css('display', 'none');
@@ -136,7 +136,7 @@ $(document).ready(function () {
         $('body').css('transform', 'translateY(0)');
         $('.logo').css('display', 'none');
         $('.start').css('display', 'none');
-        
+
         main.css('display', 'inherit');
         localStorage.setItem('main', true);
         localStorage.setItem('code', $('.school-name').attr('id'));
@@ -203,7 +203,7 @@ $(document).ready(function () {
         setTimeout(function () {
             var slides = $('.slide');
             if (direction === 1) {
-                $.each(bufferDate, function (indexInArray, valueOfElement) { 
+                $.each(bufferDate, function (indexInArray, valueOfElement) {
                     valueOfElement.setDate(valueOfElement.getDate() - 1)
                 });
                 slides[0].before(slides[2]);
@@ -211,8 +211,8 @@ $(document).ready(function () {
                 getMeal(bufferDate[1], contents);
                 refreshDate();
             } else if (direction === -1) {
-                $.each(bufferDate, function (indexInArray, valueOfElement) { 
-                        valueOfElement.setDate(valueOfElement.getDate() + 1)
+                $.each(bufferDate, function (indexInArray, valueOfElement) {
+                    valueOfElement.setDate(valueOfElement.getDate() + 1)
                 });
                 slides[2].after(slides[0]);
                 var contents = $('.slide').eq(1).find('.meal-content');
@@ -239,26 +239,26 @@ function getMeal(day, target) {
     var month = localISOTime.substring(5, 7);
     var _day = localISOTime.substring(8, 10);
 
-    if(_day.substring(0, 1) == '0')
+    if (_day.substring(0, 1) == '0')
         _day = _day.substring(1, 2);
 
 
     var url = "http://" + regionToString(codeToRegion(code)) + "/" + "sts_sci_md00_001.do" +
-    "?" + "schulCode=" + code + "&" + "schulCrseScCode=" + schoolType +
-    "&" + "schulKndScCode=" + "0" + schoolType + "&" + "ay=" + year + "&" + "mm=" + month;
+        "?" + "schulCode=" + code + "&" + "schulCrseScCode=" + schoolType +
+        "&" + "schulKndScCode=" + "0" + schoolType + "&" + "ay=" + year + "&" + "mm=" + month;
 
     var parsedDom = getSourceAsDOM(url);
     var tbody = parsedDom.getElementsByTagName('tbody');
     var trows = tbody[0].children;
 
     var matchMeal = [];
-    $.each(trows, function (indexInArray, valueOfElement) { 
-         $.each(valueOfElement.children, function (_indexInArray, _valueOfElement) { 
-              var words = _valueOfElement.children[0].innerText.split('\n');
-              if(words[0] == _day){
-                  matchMeal = words;
-              }
-         });
+    $.each(trows, function (indexInArray, valueOfElement) {
+        $.each(valueOfElement.children, function (_indexInArray, _valueOfElement) {
+            var words = _valueOfElement.children[0].innerText.split('\n');
+            if (words[0] == _day) {
+                matchMeal = words;
+            }
+        });
     });
 
     var breakfast = [];
@@ -266,39 +266,39 @@ function getMeal(day, target) {
     var dinner = [];
 
     matchMeal.forEach(element => {
-        if(element == breakfastWord){
+        if (element == breakfastWord) {
             var breakfastIndex = matchMeal.indexOf(element);
 
-            if(matchMeal.includes(lunchWord)){
+            if (matchMeal.includes(lunchWord)) {
                 var lunchindex = matchMeal.indexOf(lunchWord);
-                for(var i = breakfastIndex + 1; i < lunchindex; i++)
+                for (var i = breakfastIndex + 1; i < lunchindex; i++)
                     breakfast.push(matchMeal[i]);
-            }else if(matchMeal.includes(dinnerWord)){
+            } else if (matchMeal.includes(dinnerWord)) {
                 var dinnerindex = matchMeal.indexOf(dinnerWord);
-                for(var i = breakfastIndex + 1; i < dinnerindex; i++)
+                for (var i = breakfastIndex + 1; i < dinnerindex; i++)
                     breakfast.push(matchMeal[i]);
-            }else{
+            } else {
                 breakfast = matchMeal;
                 breakfast.shift();
                 breakfast.shift();
             }
         }
-        if(element == lunchWord){
+        if (element == lunchWord) {
             var lunchindex = matchMeal.indexOf(element);
-            if(matchMeal.includes(dinnerWord)){
+            if (matchMeal.includes(dinnerWord)) {
                 var dinnerindex = matchMeal.indexOf(dinnerWord);
-                for(var i = lunchindex + 1; i < dinnerindex; i++)
+                for (var i = lunchindex + 1; i < dinnerindex; i++)
                     lunch.push(matchMeal[i]);
-            }else{
+            } else {
                 var lastindex = matchMeal.length - 1;
-                for(var i = lunchindex + 1; i < lastindex; i++)
+                for (var i = lunchindex + 1; i < lastindex; i++)
                     lunch.push(matchMeal[i]);
             }
         }
-        if(element == dinnerWord){
+        if (element == dinnerWord) {
             var dinnerindex = matchMeal.indexOf(element);
             var lastindex = matchMeal.length - 1;
-            for(var i = dinnerindex + 1; i < lastindex; i++)
+            for (var i = dinnerindex + 1; i < lastindex; i++)
                 dinner.push(matchMeal[i]);
         }
     });
@@ -308,7 +308,7 @@ function getMeal(day, target) {
     target[2].innerText = dinner.join(' ');
 }
 
-function refreshDate(){
+function refreshDate() {
     month = (currentDate.getMonth() + 1).toString();
     date = currentDate.getDate().toString();
     day = days[currentDate.getDay()];
@@ -321,42 +321,43 @@ function searchSchool() {
     search.css('display', 'none');
     loaderWheel.css('display', 'inherit');
 
-    $.ajax({
-        url: "http://52.79.134.200:5959/school-search?key=" + inputSchoolName.val(),
-        statusCode: {
-            200: function (data) {
-                resultContainer.empty();
+    $.get('../assets/codes.json', function (data) {
+        var result = data.filter(function (element) {
+            if (element.name !== undefined)
+                return element.name.includes(inputSchoolName.val());
+            else
+                return false;
+        });
 
-                var count = '<p class="describe-school-count"><span class="school-count">' + data.length + '</span>개의 학교를 찾았습니다</p>'
-                resultContainer.prepend(count);
+        resultContainer.empty();
 
-                var container = '<div class="school-list">';
-                data.forEach(function (element) {
-                    var content = '<div class="school-item">'
-                        + '<input class="check medium" type="radio">'
-                        + '<div>'
-                        + '<p class="school-name" id="' + element.code + '">' + element.name + '</p>'
-                        + '<p class="region-name">' + element.region + '</p>'
-                        + '</div>'
-                        + '</div>';
+        var count = '<p class="describe-school-count"><span class="school-count">' + result.length + '</span>개의 학교를 찾았습니다</p>'
+        resultContainer.prepend(count);
 
-                    container += content;
-                    console.log(element);
-                }, this);
-                container += '</div>';
+        var container = '<div class="school-list">';
+        result.forEach(function (element) {
+            var content = '<div class="school-item">'
+                + '<input class="check medium" type="radio">'
+                + '<div>'
+                + '<p class="school-name" id="' + element.code + '">' + element.name + '</p>'
+                + '<p class="region-name">' + element.region + '</p>'
+                + '</div>'
+                + '</div>';
 
-                resultContainer.append(container);
-            },
-            error: function () {
-            }
-        }
-    });
+            container += content;
+            console.log(element);
+        }, this);
+
+        container += '</div>';
+
+        resultContainer.append(container);
+    }, "json");
 
     search.css('display', 'inherit');
     loaderWheel.css('display', 'none');
 }
 
-function codeToRegion(code){
+function codeToRegion(code) {
     var result = 0;
     var c = code[0];
 
@@ -399,10 +400,9 @@ function codeToRegion(code){
     return result;
 }
 
-function regionToString(region){
+function regionToString(region) {
     var result = "";
-    switch (region)
-    {
+    switch (region) {
         case regions.Seoul:
             result = "stu.sen.go.kr";
             break;
@@ -461,32 +461,31 @@ function regionToString(region){
     return result;
 }
 
-function schoolTypeToInt(schoolType){
+function schoolTypeToInt(schoolType) {
     var result = "";
-    switch(schoolType){
+    switch (schoolType) {
         case schools.Kindergarden:
-        result = "1";
-        break;
+            result = "1";
+            break;
         case schools.Elementary:
-        result = "2";
-        break;
+            result = "2";
+            break;
         case schools.Middle:
-        result = "3";
-        break;
+            result = "3";
+            break;
         case schools.High:
-        result = "4";
-        break;
+            result = "4";
+            break;
     }
 
     return result;
 }
 
-function getSourceAsDOM(url)
-{
-    xmlhttp=new XMLHttpRequest();
-    xmlhttp.open("GET",url,false);
+function getSourceAsDOM(url) {
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("GET", url, false);
     xmlhttp.send();
-    parser=new DOMParser();
-    return parser.parseFromString(xmlhttp.responseText,"text/html");      
+    parser = new DOMParser();
+    return parser.parseFromString(xmlhttp.responseText, "text/html");
 }
 
