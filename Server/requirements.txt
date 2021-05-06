@@ -14,7 +14,7 @@ diff-match-patch==20121119
 ecdsa==0.13
 et-xmlfile==1.0.1
 Flask==0.12.2
-Flask-Cors==3.0.3
+Flask-Cors==3.0.9
 Flask-JWT==0.3.2
 Flask-RESTful==0.3.6
 flask-restful-swagger-2==0.35
